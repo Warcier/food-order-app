@@ -1,9 +1,8 @@
 import mongoose from "mongoose";
 
 const orderSchema = new mongoose.Schema({
-    order_id: String,
     email: String,
-    order: {},
+    order: Array,
 });
 
 const Order = mongoose.models.Order || mongoose.model('Order', orderSchema);

@@ -1,97 +1,97 @@
 "use client"
 
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import * as z from "zod"
-
-import { Button } from "@/components/ui/button"
-import { Checkbox } from "@/components/ui/checkbox"
-import {
-    Form,
-    FormControl,
-    FormDescription,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-} from "@/components/ui/form"
 import { toast } from "@/components/ui/use-toast"
-import menuData from "@/data/menuData";
-
-const FormSchema = z.object({
-    items: z.array(z.string()).refine((value) => value.some((item) => item), {
-        message: "You have to select at least one item.",
-    }),
-})
+import {useState} from "react";
 
 export function OrderFormUI() {
-    const form = useForm<z.infer<typeof FormSchema>>({
-        resolver: zodResolver(FormSchema),
-        defaultValues: {
-            items: ["Error", "err"],
-        },
-    })
 
-    function onSubmit() {
-        toast({
-            title: "Order Sent"
-        })
+    const [email, setEmail] = useState("");
+    const [selectedFood, setSelectedFood] = useState<string[]>([]);
+
+    const foodOptions = [
+        { id: "Pizza", label: "Pizza" },
+        { id: "Burger", label: "Burger" },
+        { id: "Sushi", label: "Sushi" },
+        { id: "Pasta", label: "Pasta" },
+        { id: "Salad", label: "Salad" },
+    ];
+
+    const handleFoodCheckboxChange = (foodId: string) => {
+        const isSelected = selectedFood.includes(foodId);
+
+        if (isSelected) {
+            setSelectedFood(selectedFood.filter((id: string) => id !== foodId));
+        } else {
+            setSelectedFood([...selectedFood, foodId]);
+        }
+    };
+
+    function handleSubmit(e: any) {
+        try {
+            e.preventDefault();
+            fetch('/api/order/route', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    email: email,
+                    order: selectedFood,
+                }),
+            });
+
+            // Toast Status
+            toast({
+                title: "Order Sent"
+            })
+
+
+        }
+        catch (e) {
+            console.log(e);
+        }
     }
 
     return (
-        <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-                <FormField
-                    control={form.control}
-                    name="items"
-                    render={() => (
-                        <FormItem>
-                            <div className="mb-4">
-                                <FormLabel className="text-base">Sidebar</FormLabel>
-                                <FormDescription>
-                                    Select the items you want to display in the sidebar.
-                                </FormDescription>
-                            </div>
-                            {menuData.map((item) => (
-                                <FormField
-                                    key={item.id}
-                                    control={form.control}
-                                    name="items"
-                                    render={({ field }) => {
-                                        return (
-                                            <FormItem
-                                                key={item.id}
-                                                className="flex flex-row items-start space-x-3 space-y-0"
-                                            >
-                                                <FormControl>
-                                                    <Checkbox
-                                                        checked={field.value?.includes(item.id)}
-                                                        onCheckedChange={(checked) => {
-                                                            return checked
-                                                                ? field.onChange([...field.value, item.id])
-                                                                : field.onChange(
-                                                                    field.value?.filter(
-                                                                        (value) => value !== item.id
-                                                                    )
-                                                                )
-                                                        }}
-                                                    />
-                                                </FormControl>
-                                                <FormLabel className="font-normal">
-                                                    {item.label}
-                                                </FormLabel>
-                                            </FormItem>
-                                        )
-                                    }}
-                                />
-                            ))}
-                            <FormMessage />
-                        </FormItem>
-                    )}
+        <form className="max-w-md mx-auto mt-8" onSubmit={handleSubmit}>
+            <label className="block mb-4">
+                Email:
+                <input
+                    type="email"
+                    className="block w-full p-2 border-gray-300 border rounded"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
                 />
-                <Button type="submit">Submit</Button>
-            </form>
-        </Form>
+            </label>
 
-    )
+            <label className="block mb-4">
+                Select Food:
+                <div className="space-y-2">
+                    {foodOptions.map((food) => (
+                        <label
+                            key={food.id}
+                            className="flex items-center"
+                        >
+                            <input
+                                type="checkbox"
+                                className="mr-2"
+                                value={food.id.toString()}
+                                checked={selectedFood.includes(food.id.toString())}
+                                onChange={() => handleFoodCheckboxChange(food.id.toString())}
+                            />
+                            {food.label}
+                        </label>
+                    ))}
+                </div>
+            </label>
+
+            <button
+                type="submit"
+                className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+            >
+                Submit
+            </button>
+        </form>
+    );
 }

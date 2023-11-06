@@ -21,6 +21,6 @@ const menuData = [
         label: "Boiled Egg",
     },
 
-] as const
+]
 
 export default menuData;
