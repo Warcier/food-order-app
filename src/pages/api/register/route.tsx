@@ -1,6 +1,5 @@
 import Register from '@/model/register';
-import connectMongoDB from '../../../lib/mongoDB';
-
+import connectMongoDB from '@/lib/Mongodb';
 
 export default async function POST(request: any, response: any) {
     const { name, email, password, programme, year, StudentID } = request.body;

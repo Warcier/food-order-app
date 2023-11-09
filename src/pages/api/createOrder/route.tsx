@@ -1,6 +1,6 @@
 
 import Order from "@/model/order";
-import connectMongoDB from "@/lib/mongodb";
+import connectMongoDB from "@/lib/Mongodb";
 
 export default async function POST(request: any, response: any) {
     const {email, order} = request.body;
