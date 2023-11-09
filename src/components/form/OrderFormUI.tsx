@@ -53,20 +53,29 @@ export function OrderFormUI() {
     }
 
     return (
-        <form className="max-w-md mx-auto mt-8" onSubmit={handleSubmit}>
-            <label className="block mb-4">
-                Email:
+        <form className="max-w-md mx-auto mt-8 bg-white shadow-md rounded px-8 pt-6 pb-8" onSubmit={handleSubmit}>
+            <h2 className="text-xl font-bold mb-6">Submit Form</h2>
+            
+            <div className="mb-6">
+                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
+                    Email:
+                </label>
+
                 <input
                     type="email"
-                    className="block w-full p-2 border-gray-300 border rounded"
+                    id="email"
+                    className="block w-full p-2 border border-gray-300 rounded"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
                 />
-            </label>
+            </div>
 
-            <label className="block mb-4">
-                Select Food:
+            <div className="mb-6">
+                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="food-options">
+                    Select Food:
+                </label>
+
                 <div className="space-y-2">
                     {foodOptions.map((food) => (
                         <label
@@ -84,14 +93,16 @@ export function OrderFormUI() {
                         </label>
                     ))}
                 </div>
-            </label>
+            </div>
 
-            <button
-                type="submit"
-                className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-            >
-                Submit
-            </button>
+            <div className="flex flex-col items-center">
+                <button
+                    type="submit"
+                    className="px-4 py-2 bg-green-700 text-white rounded hover:bg-green-900"
+                >
+                    Submit
+                </button>
+            </div>
         </form>
     );
 }
