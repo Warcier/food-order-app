@@ -9,7 +9,7 @@ const userSchema = new mongoose.Schema({
     StudentID: String,
 });
 
-const Register = mongoose.models.User || mongoose.model('User', userSchema);
+const User = mongoose.models.User || mongoose.model('User', userSchema);
 
-export default Register;
+export default User;
 

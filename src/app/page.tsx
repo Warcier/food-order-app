@@ -1,16 +1,13 @@
 "use client"
 import {OrderFormUI} from "@/components/form/OrderFormUI";
 import Homepage from "@/components/Home/page";
-import Order from "@/model/order";
+import RegisterForm from "@/components/form/registerForm";
+
 export default function Home() {
   return (
     <main>
-         <div>
-          <Homepage />
-         </div>
-
         <div>
-          <OrderFormUI />
+            <RegisterForm />
         </div>
     </main>
   )
