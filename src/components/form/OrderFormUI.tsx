@@ -2,10 +2,14 @@
 
 import { toast } from "@/components/ui/use-toast"
 import {useState} from "react";
+import {useSession} from "next-auth/react";
+import {useRouter} from "next/navigation";
+
 
 export function OrderFormUI() {
+    const router = useRouter()
+    const {data: session} = useSession();
 
-    const [email, setEmail] = useState("");
     const [selectedFood, setSelectedFood] = useState<string[]>([]);
 
     const foodOptions = [
@@ -29,22 +33,23 @@ export function OrderFormUI() {
     function handleSubmit(e: any) {
         try {
             e.preventDefault();
-            fetch('/api/order/route', {
+
+            fetch('/api/createOrder/route', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    email: email,
+                    email: session?.user?.email ?? "",
                     order: selectedFood,
                 }),
-            });
+            })
 
             // Toast Status
             toast({
                 title: "Order Sent"
             })
-
+            router.push("/")
 
         }
         catch (e) {
@@ -55,21 +60,7 @@ export function OrderFormUI() {
     return (
         <form className="max-w-md mx-auto mt-8 bg-white shadow-md rounded px-8 pt-6 pb-8" onSubmit={handleSubmit}>
             <h2 className="text-xl font-bold mb-6">Submit Form</h2>
-            
-            <div className="mb-6">
-                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
-                    Email:
-                </label>
-
-                <input
-                    type="email"
-                    id="email"
-                    className="block w-full p-2 border border-gray-300 rounded"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                />
-            </div>
+            <h4 className="text-xl font-bold mb-6">Current Ordering User: {session?.user?.name} </h4>
 
             <div className="mb-6">
                 <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="food-options">

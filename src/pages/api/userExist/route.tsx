@@ -1,14 +1,17 @@
-import connectMongoDB from '@/lib/Mongodb';
-import User from "@/model/register";
-import { NextResponse } from "next/server";
+import connectMongoDB from "@/lib/Mongodb";
+import User from "@/models/register";
+import {NextApiRequest, NextApiResponse} from "next";
 
-export async function POST(request: any, response: any) {
+export default async function POST(
+    req: NextApiRequest,
+    res: NextApiResponse,
+) {
     try {
         await connectMongoDB();
-        const { email } = await request.json();
+        const { email } = await req.body;
         const user = await User.findOne({ email }).select("_id");
-        console.log("Account: ", user);
-        return NextResponse.json({ user });
+        console.log("user: ", user);
+        return res.status(201).json({ user });
     } catch (error) {
         console.log(error);
     }

@@ -1,9 +1,14 @@
 
-import Order from "@/model/order";
+import Order from "@/models/order";
 import connectMongoDB from "@/lib/Mongodb";
+import {NextApiRequest, NextApiResponse} from "next";
 
-export default async function POST(request: any, response: any) {
-    const {email, order} = request.body;
+
+export default async function POST(
+    req: NextApiRequest,
+    res: NextApiResponse,
+) {
+    const {email, order} = req.body;
     await connectMongoDB();
 
     await Order.create({
@@ -11,6 +16,6 @@ export default async function POST(request: any, response: any) {
         order,
     });
 
-    return response.status(200).json({ msg: 'Order Send' }).end();
+    return res.status(200).json({ msg: 'Order Send' });
 
 }

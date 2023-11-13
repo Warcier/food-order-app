@@ -1,5 +1,5 @@
 import connectMongoDB from '@/lib/Mongodb';
-import Order from "@/model/order";
+import Order from "@/models/order";
 import { NextApiRequest, NextApiResponse } from "next";
 
 export default async function GET(

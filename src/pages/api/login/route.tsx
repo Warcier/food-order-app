@@ -7,19 +7,14 @@ export default async function POST(
     res: NextApiResponse,
 ) {
     try{
-        const { name, email, password, programme, year, studentID } = req.body;
+        const { email, password} = req.body;
         await connectMongoDB();
         await User.create({
-            name,
             email,
             password,
-            programme,
-            year,
-            studentID,
         });
         return res.status(201).json({ message: 'Registered' });
     } catch (e) {
         return res.status(500).json({ message: 'Error occurred while creating user' });
     }
-    
 }

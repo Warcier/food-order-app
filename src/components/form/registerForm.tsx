@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState } from "react";
 import { useRouter } from 'next/navigation';
 import { toast } from "@/components/ui/use-toast"
@@ -13,18 +15,19 @@ export default function RegisterForm() {
 
     let router = useRouter();
 
+    async function handleSubmit(e: any) {
 
-
-    const handleSubmit = () => async (e: any) => {
-        e.preventDefault();
-
-        if (!name || !email || !pwd || programme || year || studentID) {
+        if (!name || !email || !pwd || !programme || !year || !studentID) {
             setError("All fields are necessary.");
             return;
         }
 
         try {
-            const resUserExists = await fetch("api/userExists", {
+             e.preventDefault();
+
+            console.log(name, email, pwd, programme, year, studentID)
+
+            const resUserExists = await fetch("api/userExist/route", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -32,38 +35,50 @@ export default function RegisterForm() {
                 body: JSON.stringify({ email }),
             });
 
-            const { user } = await resUserExists.json();
+            const { user }: any = await resUserExists.json();
 
             if (user) {
-                setError("User already exists.");
+                // Toast Status
+                toast({
+                    title: "User already exists"
+                })
                 return;
             }
 
-            const res = await fetch("api/register", {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        name,
-                        email,
-                        pwd,
-                        programme,
-                        year,
-                        studentID,
-                    }),
+            const res = await fetch("api/register/route", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    name: name,
+                    email: email,
+                    password: pwd,
+                    programme: programme,
+                    year: year,
+                    StudentID: studentID,
+                }),
             });
 
+
+
+
             if (res.ok) {
-                const form = e.target;
-                form.reset();
+
+                // const form = e.target;
+                // form.reset();
+
+                // Toast Status
+                toast({
+                    title: "Registered"
+                })
                 router.push("/");
             } else {
                 console.log("User registration failed.");
             }
 
         } catch (error) {
-            console.log("Error during registration: ", error);
+            console.log(e);
         }
     }
 
@@ -157,6 +172,12 @@ export default function RegisterForm() {
                     />
                 </div>
 
+                {error && (
+                    <div className="bg-red-500 text-white w-fit text-sm py-1 px-3 rounded-md mt-2">
+                        {error}
+                    </div>
+                )}
+
                 <div className="flex flex-col items-center">
                     <button
                         type="submit"
@@ -166,11 +187,7 @@ export default function RegisterForm() {
                     </button>
                 </div>
 
-                {error && (
-                    <div className="bg-red-500 text-white w-fit text-sm py-1 px-3 rounded-md mt-2">
-                        {error}
-                    </div>
-                )}
+
 
             </form>
         </>
