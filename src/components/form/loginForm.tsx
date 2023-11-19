@@ -3,6 +3,9 @@ import React, { useState } from "react";
 import { useRouter } from 'next/navigation';
 import { toast } from "@/components/ui/use-toast"
 import {signIn} from "next-auth/react";
+import Link from "next/link";
+import Image from "next/image"
+
 export default function LoginForm() {
 
     const [email, setEmail] = useState("");
@@ -37,7 +40,15 @@ export default function LoginForm() {
 
     return (
         <>
-            <form className="max-w-md mx-auto mt-8 bg-white shadow-md rounded px-8 pt-6 pb-8" onSubmit={handleSubmit}>
+
+            <div className="bg-[url('/images/p11.jpg')] bg-cover bg-center h-screen">
+
+            <header className="bg-white p-2 grid grid-cols-3 items-center mb-2 rounded-lg shadow-md">
+                <img src="/images/hsu_logo.png" alt="HSU Logo" className="w-auto h-auto col-span-1" />
+                <h1 className="text-2xl font-bold text-green-700 center col-span-2">Welcome Back! Sign In to Your Account</h1>
+            </header>
+
+            <form className="max-w-md mx-auto mt-8 bg-white shadow-md rounded px-8 pt-10 pb-6" onSubmit={handleSubmit}>
                 <h2 className="text-xl font-bold mb-6">Login</h2>
 
                 <div className="mb-6">
@@ -81,9 +92,16 @@ export default function LoginForm() {
                     </button>
                 </div>
 
+                <div className = "flex justify-center pt-3">
+                    <p>Don&apos;t have an account?<Link href="/register" className="hover:text-blue-500 hover:underline"> Register now</Link></p>
+                </div>
+
 
 
             </form>
+
+            </div>
+
         </>
     );
 }

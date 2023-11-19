@@ -85,7 +85,15 @@ export default function RegisterForm() {
 
     return (
         <>
-            <form className="max-w-md mx-auto mt-8 bg-white shadow-md rounded px-8 pt-6 pb-8" onSubmit={handleSubmit}>
+
+            <div className="bg-[url('/images/p11.jpg')] bg-cover bg-center h-max">
+
+            <header className="bg-white p-2 grid grid-cols-3 items-center mb-2 rounded-lg shadow-md">
+                <img src="/images/hsu_logo.png" alt="HSU Logo" className="w-auto h-auto col-span-1" />
+                <h1 className="text-2xl font-bold text-green-700 center col-span-2">Sign Up to Create An Account</h1>
+            </header>
+            
+            <form className="max-w-md mx-auto mt-8 bg-white shadow-md rounded px-8 pt-6 pb-4" onSubmit={handleSubmit}>
                 <h2 className="text-xl font-bold mb-6">Register</h2>
 
                 <div className="mb-6">
@@ -190,6 +198,9 @@ export default function RegisterForm() {
 
 
             </form>
+
+            </div>
+
         </>
     );
 }
