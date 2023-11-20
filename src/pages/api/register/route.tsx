@@ -13,9 +13,9 @@ export default async function POST(
             name,
             email,
             password,
+            studentID,
             programme,
             year,
-            studentID,
         });
         return res.status(201).json({ message: 'Registered' });
     } catch (e) {

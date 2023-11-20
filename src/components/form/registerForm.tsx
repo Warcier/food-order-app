@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import { useRouter } from 'next/navigation';
 import { toast } from "@/components/ui/use-toast"
 export default function RegisterForm() {
@@ -9,23 +9,34 @@ export default function RegisterForm() {
     const [email, setEmail] = useState("");
     const [pwd, setPwd] = useState("");
     const [programme, setProgramme] = useState("");
-    const [year, setYear] = useState("");
+    const [year, setYear] = useState("1");
     const [studentID, setStudentID] = useState("");
     const [error, setError] = useState("");
+    const [isStudent, setIsStudent] = useState(true);
 
     let router = useRouter();
 
     async function handleSubmit(e: any) {
 
-        if (!name || !email || !pwd || !programme || !year || !studentID) {
+        if (!name || !email || !pwd ) {
             setError("All fields are necessary.");
             return;
         }
 
+        if (isStudent) {
+            if (!studentID || !programme || !year) {
+                setError("All student fields are necessary.");
+                return;
+            }
+        }
+        else{
+            setStudentID("Nil")
+            setYear("Nil")
+            setProgramme("Nil")
+        }
+
         try {
              e.preventDefault();
-
-            console.log(name, email, pwd, programme, year, studentID)
 
             const resUserExists = await fetch("api/userExist/route", {
                 method: "POST",
@@ -54,9 +65,10 @@ export default function RegisterForm() {
                     name: name,
                     email: email,
                     password: pwd,
+                    studentID: studentID,
                     programme: programme,
                     year: year,
-                    StudentID: studentID,
+
                 }),
             });
 
@@ -82,12 +94,9 @@ export default function RegisterForm() {
         }
     }
 
-
     return (
         <>
-
             <div className="bg-[url('/images/p11.jpg')] bg-cover bg-center h-max">
-
             <header className="bg-white p-2 grid grid-cols-3 items-center mb-2 rounded-lg shadow-md">
                 <img src="/images/hsu_logo.png" alt="HSU Logo" className="w-auto h-auto col-span-1" />
                 <h1 className="text-2xl font-bold text-green-700 center col-span-2">Sign Up to Create An Account</h1>
@@ -140,30 +149,15 @@ export default function RegisterForm() {
 
                 <div className="mb-6">
                     <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
-                        Programme:
+                        Are you a student?
                     </label>
+                    <input type="radio" name="radio-1" className="radio" onChange={() => setIsStudent(true)}/>
+                    <label> Yes</label>
+                    <br/>
+                    <input type="radio" name="radio-1" className="radio" onChange={() => setIsStudent(false)}/>
+                    <label> No</label>
 
-                    <input
-                        type="text"
-                        className="block w-full p-2 border border-gray-300 rounded"
-                        value={programme}
-                        onChange={(e) => setProgramme(e.target.value)}
-                        required
-                    />
-                </div>
 
-                <div className="mb-6">
-                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
-                        Year:
-                    </label>
-
-                    <input
-                        type="text"
-                        className="block w-full p-2 border border-gray-300 rounded"
-                        value={year}
-                        onChange={(e) => setYear(e.target.value)}
-                        required
-                    />
                 </div>
 
                 <div className="mb-6">
@@ -176,9 +170,36 @@ export default function RegisterForm() {
                         className="block w-full p-2 border border-gray-300 rounded"
                         value={studentID}
                         onChange={(e) => setStudentID(e.target.value)}
-                        required
+                        disabled={!isStudent}
                     />
                 </div>
+
+                <div className="mb-6">
+                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
+                        Programme:
+                    </label>
+                    <select onChange={(e) => setProgramme(e.target.value)} disabled={!isStudent}>
+                        <option value="School of Business">School of Business</option>
+                        <option value="School of Communication">School of Communication</option>
+                        <option value="School of Humanities and Social Science">School of Humanities and Social Science</option>
+                        <option value="School of Translation and Foreign Languages">School of Translation and Foreign Languages</option>
+                        <option value="School of School of Decision Science">School of School of Decision Science</option>
+                    </select>
+                </div>
+
+                <div className="mb-6">
+                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
+                        Year:
+                    </label>
+                    <select onChange={(e) => setYear(e.target.value)} disabled={!isStudent}>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                    </select>
+                </div>
+
+
 
                 {error && (
                     <div className="bg-red-500 text-white w-fit text-sm py-1 px-3 rounded-md mt-2">
@@ -194,13 +215,8 @@ export default function RegisterForm() {
                         Submit
                     </button>
                 </div>
-
-
-
             </form>
-
             </div>
-
         </>
     );
 }

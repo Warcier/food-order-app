@@ -3,23 +3,22 @@
 "use client"
 
 import Image from "next/image"
+import Link from 'next/link'
 import "/src/app/menu.css";
 import {signOut, useSession} from "next-auth/react";
 
 export default  function Homepage() {
     const {data: session} = useSession();
 
-
     return (
         <div>
             <main>
                 <header>
                     <nav>
-
                         <ul>
                             <li><a>User: <span className="font-bold">{session?.user?.name}</span></a></li>
                             <li><a href="/order">Order</a></li>
-                            <li><a href="https://www.hsu.edu.hk/en/admissions/">Recent Order</a></li>
+                            <li><Link href="/api/recentOrder/route">Recent Order</Link></li>
 
                             <li>
                                 <button
