@@ -1,8 +1,9 @@
 import connectMongoDB from '@/lib/Mongodb';
-import Order from "@/models/order";
+import User from "@/models/register";
 import { NextApiRequest, NextApiResponse } from "next";
 import {getServerSession} from "next-auth";
 import {authOptions} from "@/pages/api/auth/[...nextauth]";
+import {redirect} from "next/navigation";
 
 export default async function GET(
     req: NextApiRequest,
@@ -12,8 +13,8 @@ export default async function GET(
 
     if (session) {
         await connectMongoDB();
-        const order = await Order.find();
-        return res.status(200).json(order)
+        const user = await User.find();
+        return res.status(200).json(user)
     }
     return res.json({
         message: 'Invalid session',

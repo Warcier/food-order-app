@@ -21,5 +21,4 @@ export default async function POST(
     } catch (e) {
         return res.status(500).json({ message: 'Error occurred while creating user' });
     }
-    
 }
