@@ -8,7 +8,9 @@ const userSchema = new mongoose.Schema({
     programme: String,
     year: String,
 
-});
+},
+    { timestamps: true }
+);
 
 const User = mongoose.models.User || mongoose.model('User', userSchema);
 

@@ -3,7 +3,6 @@ import User from "@/models/register";
 import { NextApiRequest, NextApiResponse } from "next";
 import {getServerSession} from "next-auth";
 import {authOptions} from "@/pages/api/auth/[...nextauth]";
-import {redirect} from "next/navigation";
 
 export default async function GET(
     req: NextApiRequest,
