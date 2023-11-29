@@ -41,7 +41,7 @@ export default function LoginForm() {
     return (
         <>
 
-            <div className="bg-[url('/images/p11.jpg')] bg-cover bg-center h-screen">
+            <div className="bg-[url('/images/p11.jpg')] bg-cover bg-center h-[110vh]">
 
             <header className="bg-white p-2 grid grid-cols-3 items-center mb-2 rounded-lg shadow-md">
                 <img src="/images/hsu_logo.png" alt="HSU Logo" className="w-auto h-auto col-span-1" />

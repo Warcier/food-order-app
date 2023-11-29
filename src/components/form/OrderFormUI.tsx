@@ -13,11 +13,14 @@ export function OrderFormUI() {
     const [selectedFood, setSelectedFood] = useState<string[]>([]);
 
     const foodOptions = [
-        { id: "Pizza", label: "Pizza" },
-        { id: "Burger", label: "Burger" },
-        { id: "Sushi", label: "Sushi" },
-        { id: "Pasta", label: "Pasta" },
-        { id: "Salad", label: "Salad" },
+        { id: "Italian Diavola Pizza", label: "Italian Diavola Pizza", image: "p3.jpg"},
+        { id: "Egg Spaghetti Bolognese", label: "Egg Spaghetti Bolognese", image: "p4.jpg"},
+        { id: "Beef Fried Rice Noodles", label: "Beef Fried Rice Noodles", image: "p5.jpg" },
+        { id: "Curry Chicken Rice", label: "Curry Chicken Rice", image: "p6.jpg" },
+        { id: "Teppan Sirloin Rice", label: "Teppan Sirloin Rice", image: "p7.jpg" },
+        { id: "Mix Fruit Salad", label: "Mix Fruit Salad", image: "p8.jpg"},
+        { id: "Pineapple Pork Chop Burger", label: "Pineapple Pork Chop Burger", image: "p9.jpg"},
+        { id: "Corned Beef and Egg Sandwich", label: "Corned Beef and Egg Sandwich", image: "p10.jpg"}
     ];
 
     const handleFoodCheckboxChange = (foodId: string) => {
@@ -58,7 +61,14 @@ export function OrderFormUI() {
     }
 
     return (
-        <form className="max-w-md mx-auto mt-8 bg-white shadow-md rounded px-8 pt-6 pb-8" onSubmit={handleSubmit}>
+        <div className="bg-[url('/images/p11.jpg')] bg-cover bg-center h-[110vh]">
+
+        <header className="bg-white p-2 grid grid-cols-2 items-center mb-2 rounded-lg shadow-md">
+            <img src="/images/hsu_logo.png" alt="HSU Logo" className="w-auto h-auto col-span-1" />
+            <h1 className="text-2xl font-bold text-green-700 center col-span-1">Ordering Form</h1>
+        </header>
+
+        <form className="max-w-md mx-auto mt-8 mb-10 bg-white shadow-md rounded px-8 pt-6 pb-8" onSubmit={handleSubmit}>
             <h2 className="text-xl font-bold mb-6">Submit Form</h2>
             <h4 className="text-xl font-bold mb-6">Current Ordering User: {session?.user?.name} </h4>
 
@@ -80,7 +90,17 @@ export function OrderFormUI() {
                                 checked={selectedFood.includes(food.id.toString())}
                                 onChange={() => handleFoodCheckboxChange(food.id.toString())}
                             />
-                            {food.label}
+                        
+                            <div className=" pl-4 flex items-center">
+                                <img
+                                src={`/images/${food.image}`} 
+                                alt={food.label}
+                                className="w-10 h-10 object-cover rounded-full mr-2"
+                            />
+
+                            <span>{food.label}</span>
+
+                            </div>
                         </label>
                     ))}
                 </div>
@@ -95,5 +115,6 @@ export function OrderFormUI() {
                 </button>
             </div>
         </form>
+        </div>
     );
 }

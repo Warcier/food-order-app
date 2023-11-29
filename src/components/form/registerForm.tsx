@@ -96,7 +96,7 @@ export default function RegisterForm() {
 
     return (
         <>
-            <div className="bg-[url('/images/p11.jpg')] bg-cover bg-center h-max">
+            <div className="bg-[url('/images/p11.jpg')] bg-cover bg-center h-[120vh]">
             <header className="bg-white p-2 grid grid-cols-3 items-center mb-2 rounded-lg shadow-md">
                 <img src="/images/hsu_logo.png" alt="HSU Logo" className="w-auto h-auto col-span-1" />
                 <h1 className="text-2xl font-bold text-green-700 center col-span-2">Sign Up to Create An Account</h1>
